@@ -828,6 +828,10 @@ li.breadcrumb-item a {
     text-transform: uppercase;
 }
 
+.img-movie-shots {
+    max-width: 250px;
+    height: auto;
+}
 
 .img-deal1 a {
     font-size: 14px;
