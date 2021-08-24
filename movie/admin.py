@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from django import forms
 from django.contrib import admin
@@ -55,6 +56,7 @@ class MovieAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
     form = MovieAdminForm
+    actions = 'publish', 'unpublish'
     fieldsets = (
         (None, {
             'fields': (('title', 'tagline'),)
@@ -85,6 +87,24 @@ class MovieAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src={obj.poster.url} width="200">')
 
     get_image.short_description = 'Постер'
+
+    def unpublish(self, request, queryset):
+        """Снять с публикации"""
+        row_update = queryset.update(draft=True)
+        message = f'{row_update} записей обновлено'
+        self.message_user(request, message)
+
+    unpublish.short_description = 'Снять с публикации'
+    unpublish.allowed_permissions = 'change',
+
+    def publish(self, request, queryset):
+        """Опубликовать"""
+        row_update = queryset.update(draft=False)
+        message = f'{row_update} записей обновлено'
+        self.message_user(request, message)
+
+    publish.short_description = 'Опубликовать'
+    publish.allowed_permissions = 'change',
 
 
 @admin.register(Genre)
