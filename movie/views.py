@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 from django.http import HttpRequest
 
-from .models import Movie, Category
+from .models import Movie, Category, Actor
 from .forms import ReviewForm
 
 
@@ -33,3 +33,10 @@ class AddReview(View):
             form.movie = movie
             form.save()
         return redirect(movie.get_absolute_url())
+
+
+class ActorView(DetailView):
+    """Информация об актере"""
+    model = Actor
+    template_name = 'movie/actor.html'
+    slug_field = 'name'
