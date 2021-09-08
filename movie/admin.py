@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from django import forms
 from django.contrib import admin
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from modeltranslation.admin import TranslationAdmin
 
 from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Review
 
@@ -45,7 +46,7 @@ class MovieShotsInline(admin.TabularInline):
 
 
 @admin.register(Movie)
-class MovieAdmin(admin.ModelAdmin):
+class MovieAdmin(TranslationAdmin):
     list_display = 'title', 'category', 'url', 'draft'
     list_display_links = 'title', 'url'
     list_filter = 'category', 'year'
